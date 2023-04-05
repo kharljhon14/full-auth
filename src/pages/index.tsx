@@ -8,6 +8,7 @@ export default function Home() {
   return (
     <>
       <h1 className="text-red-700">{session?.user?.name}</h1>
+      <h2>{session?.user?.email}</h2>
       <img src={session?.user?.image as string} alt="avatar" className="w-1/8" />
       {session ? (
         <button onClick={() => signOut()}>Sign out</button>
