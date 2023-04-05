@@ -1,9 +1,11 @@
-import NextAuth from 'next-auth';
+import NextAuth, { Account, Profile, Session, User } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 import DiscordProvider from 'next-auth/providers/discord';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 import clientPromise from '@/lib/mongodb';
+import { JWT } from 'next-auth/jwt';
+import { Adapter } from 'next-auth/adapters';
 
 export default NextAuth({
   adapter: MongoDBAdapter(clientPromise),
@@ -22,4 +24,31 @@ export default NextAuth({
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: 'jwt',
+  },
+  callbacks: {
+    async jwt({
+      token,
+      user,
+      account,
+      profile,
+    }: {
+      token: JWT;
+      user?: User | Adapter | undefined;
+      account?: Account | null | undefined;
+      profile?: Profile | undefined;
+    }) {
+      if (user) token.provider = account?.provider;
+
+      console.log(token);
+
+      return token;
+    },
+    async session({ session, token }: { session: any; token: JWT }) {
+      if (session.user && token.provider) session.user.provider = token.provider;
+
+      return session;
+    },
+  },
 });
