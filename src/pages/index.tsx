@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="bg-black min-h-screen text-white flex items-center justify-center">
       <div className="mx-auto">
-        <div className="border border-white relative flex flex-col rounded-lg w-[40rem]">
+        <div className="border border-white relative flex flex-col rounded-lg w-[40rem] py-5">
           <div className="flex flex-col flex-wrap justify-center items-center">
             <div className="w-full text-right">
               <div className="py-6 px-3">
