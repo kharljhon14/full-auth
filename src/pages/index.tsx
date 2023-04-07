@@ -5,7 +5,7 @@ import Image from 'next/image';
 export default function Home() {
   const { data: session } = useSession();
   return (
-    <div className="bg-black min-h-screen text-white flex items-center justify-center">
+    <div className="home bg-black min-h-screen text-white flex items-center justify-center">
       <div className="mx-auto">
         <div className="border border-white relative flex flex-col rounded-lg w-[40rem] py-5">
           <div className="flex flex-col flex-wrap justify-center items-center">
