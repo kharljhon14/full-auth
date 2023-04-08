@@ -1,6 +1,8 @@
 import Input from '../inputs/Input';
 import { CiUser } from 'react-icons/ci';
 import { useForm } from 'react-hook-form';
+import { RegisterSchema, RegisterSchemaType } from '@/schemas/register';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export default function Register() {
   const {
@@ -8,7 +10,7 @@ export default function Register() {
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<RegisterSchemaType>({ resolver: zodResolver(RegisterSchema) });
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -28,6 +30,7 @@ export default function Register() {
           disabled={isSubmitting}
         />
       </div>
+      <button>Submit</button>
     </form>
   );
 }

@@ -20,8 +20,8 @@ export default function Input({ name, label, type, icon, placeholder, register, 
       </label>
       <div className="relative mt-1 rounded-md">
         <div
-          className="pointer-event-none absolute top-0.5 left-0 inset-y-0 flex items-center pl-3"
-          style={{ transform: `${error ? 'translateY(-10px)' : ''}` }}
+          className="pointer-event-none absolute  left-0 inset-y-0 flex items-center pl-3"
+          style={{ transform: `${error ? 'translateY(-11.7px)' : ''}` }}
         >
           <span className="text-gray-500 text-sm">{icon}</span>
         </div>
