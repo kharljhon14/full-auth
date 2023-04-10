@@ -5,8 +5,12 @@ import { BsTelephone } from 'react-icons/bs';
 import { useForm } from 'react-hook-form';
 import { RegisterSchema, RegisterSchemaType } from '@/schemas/register';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState } from 'react';
+import zxcvbn from 'zxcvbn';
 
 export default function Register() {
+  const [passwordScore, setPasswordScore] = useState(0);
+
   const {
     register,
     handleSubmit,
@@ -17,6 +21,12 @@ export default function Register() {
   const onSubmit = (data: any) => {
     console.log(data);
   };
+
+  useEffect(() => {
+    const password = watch().password;
+    setPasswordScore(zxcvbn(password ? password : '').score);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watch().password]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="my-8 text-sm">
@@ -62,28 +72,41 @@ export default function Register() {
         error={errors?.phone?.message}
         disabled={isSubmitting}
       />
-      <div className="gap-2 md:flex">
-        <Input
-          name={'password'}
-          label={'Password'}
-          type="password"
-          icon={<FiLock />}
-          placeholder={'********'}
-          register={register}
-          error={errors?.password?.message}
-          disabled={isSubmitting}
-        />
-        <Input
-          name={'confirm_password'}
-          label={'Confirm password'}
-          type="password"
-          icon={<FiLock />}
-          placeholder={'********'}
-          register={register}
-          error={errors?.confirm_password?.message}
-          disabled={isSubmitting}
-        />
-      </div>
+
+      <Input
+        name={'password'}
+        label={'Password'}
+        type="password"
+        icon={<FiLock />}
+        placeholder={'********'}
+        register={register}
+        error={errors?.password?.message}
+        disabled={isSubmitting}
+      />
+      {watch().password?.length > 0 && (
+        <div className="flex mt-2">
+          {Array.from(Array(5).keys()).map((span, i) => (
+            <span className="w-1/5 px-1" key={i}>
+              <div
+                className={`h-2 rounded-xl b ${
+                  passwordScore <= 2 ? 'bg-red-400' : passwordScore < 4 ? 'bg-yellow-400' : 'bg-green-500'
+                }`}
+              ></div>
+            </span>
+          ))}
+        </div>
+      )}
+
+      <Input
+        name={'confirm_password'}
+        label={'Confirm password'}
+        type="password"
+        icon={<FiLock />}
+        placeholder={'********'}
+        register={register}
+        error={errors?.confirm_password?.message}
+        disabled={isSubmitting}
+      />
 
       <button>Submit</button>
     </form>
