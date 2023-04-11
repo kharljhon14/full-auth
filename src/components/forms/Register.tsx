@@ -113,7 +113,7 @@ export default function Register() {
       <div className="flex items-center mt-3">
         <input className="mr-2 rounded focus:ring-0" type="checkbox" id="accept" {...register('accept')} />
         <label htmlFor="accept" className="text-gray-700">
-          I accept the&nbsp;{' '}
+          I accept the&nbsp;
           <Link href="/" target="_blank" className="text-blue-600 hover:text-blue-700 hover:underline">
             terms
           </Link>
