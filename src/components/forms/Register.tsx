@@ -7,6 +7,7 @@ import { RegisterSchema, RegisterSchemaType } from '@/schemas/register';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import zxcvbn from 'zxcvbn';
+import Link from 'next/link';
 
 export default function Register() {
   const [passwordScore, setPasswordScore] = useState(0);
@@ -21,7 +22,7 @@ export default function Register() {
   const onSubmit = (data: any) => {
     console.log(data);
   };
-
+  ``;
   useEffect(() => {
     const password = watch().password;
     setPasswordScore(zxcvbn(password ? password : '').score);
@@ -107,6 +108,21 @@ export default function Register() {
         error={errors?.confirm_password?.message}
         disabled={isSubmitting}
       />
+
+      <div className="flex items-center mtg-3">
+        <input className="mr-2 rounded focus:ring-0" type="checkbox" id="accept" {...register('accept')} />
+        <label htmlFor="accept" className="text-gray-700">
+          I accept the&nbsp;{' '}
+          <Link href="/" target="_blank" className="text-blue-600 hover:text-blue-700 hover:underline">
+            terms
+          </Link>
+          &nbsp;and&nbsp;
+          <Link href="/" target="_blank" className="text-blue-600 hover:text-blue-700 hover:underline">
+            privacy policy
+          </Link>
+        </label>
+      </div>
+      <div>{errors?.accept && <p className="text-sm text-red-600 mt-1">{errors?.accept?.message}</p>}</div>
 
       <button>Submit</button>
     </form>

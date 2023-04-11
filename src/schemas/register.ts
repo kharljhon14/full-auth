@@ -20,6 +20,11 @@ export const RegisterSchema = z
       .min(10, 'Password must be 10 characters')
       .max(100, 'Password must be less than 100 characters'),
     confirm_password: z.string(),
+    accept: z.literal(true, {
+      errorMap: () => ({
+        message: 'Please agree to all the terms and condition before continuing',
+      }),
+    }),
   })
   .refine((data) => data.password === data.confirm_password, {
     message: "Password doesn't match",
