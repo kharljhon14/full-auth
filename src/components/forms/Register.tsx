@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import Link from 'next/link';
+import SlideButton from '../buttons/SlideButton';
 
 export default function Register() {
   const [passwordScore, setPasswordScore] = useState(0);
@@ -109,7 +110,7 @@ export default function Register() {
         disabled={isSubmitting}
       />
 
-      <div className="flex items-center mtg-3">
+      <div className="flex items-center mt-3">
         <input className="mr-2 rounded focus:ring-0" type="checkbox" id="accept" {...register('accept')} />
         <label htmlFor="accept" className="text-gray-700">
           I accept the&nbsp;{' '}
@@ -124,7 +125,7 @@ export default function Register() {
       </div>
       <div>{errors?.accept && <p className="text-sm text-red-600 mt-1">{errors?.accept?.message}</p>}</div>
 
-      <button>Submit</button>
+      <SlideButton type="submit" text="Sign up" slide_text="Secure sign up" icon={<FiLock />} disabled={isSubmitting} />
     </form>
   );
 }
