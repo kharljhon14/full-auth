@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import Link from 'next/link';
 import SlideButton from '../buttons/SlideButton';
+import { toast } from 'react-toastify';
 
 export default function Register() {
   const [passwordScore, setPasswordScore] = useState(0);
@@ -126,6 +127,10 @@ export default function Register() {
       <div>{errors?.accept && <p className="text-sm text-red-600 mt-1">{errors?.accept?.message}</p>}</div>
 
       <SlideButton type="submit" text="Sign up" slide_text="Secure sign up" icon={<FiLock />} disabled={isSubmitting} />
+
+      <button type="button" onClick={() => toast.success('this is a success')}>
+        Toast{' '}
+      </button>
     </form>
   );
 }

@@ -1,3 +1,4 @@
+import Background from '@/components/backgrounds/Background';
 import Register from '@/components/forms/Register';
 import Link from 'next/link';
 
@@ -20,6 +21,7 @@ export default function auth() {
             <Register />
           </div>
         </div>
+        <Background image="../../auth/register.jpg" />
       </div>
     </div>
   );
