@@ -4,6 +4,9 @@ import connectDB from '@/utils/connectDB';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
+import { createActivationToken } from '@/utils/tokens';
+import sendMail from '@/utils/sendMail';
+import { activateEmailTemplate } from '@/email-templates/activate';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -32,6 +35,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     await newUser.save();
+
+    const activation_token = createActivationToken({ id: newUser._id.toString() });
+    const url = `${process.env.NEXTAUTH_URL}/activate/${activation_token}`;
+
+    await sendMail(newUser.email, newUser.name, url, 'Activate your account', activateEmailTemplate);
 
     res.status(200).json({ message: 'Register success! Please activate your account' });
   } catch (err) {
