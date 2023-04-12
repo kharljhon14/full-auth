@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from 'react';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 interface Props {
   type: 'button' | 'submit' | 'reset';
@@ -16,7 +16,7 @@ export default function SlideButton({ type, text, slide_text, disabled, icon }: 
       className="relative w-full inline-flex items-center justify-center px-8 py-6 mt-4 overflow-hidden font-medium bg-blue-500 transition duration-300 ease-out border-2 rounded-md group"
     >
       {disabled ? (
-        'Loading...'
+        <BeatLoader color="#fff" size={12} />
       ) : (
         <>
           <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-blue-600 group-hover:translate-x-0 ease">

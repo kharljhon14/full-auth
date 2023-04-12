@@ -19,12 +19,14 @@ export default function Register() {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<RegisterSchemaType>({ resolver: zodResolver(RegisterSchema) });
 
   const onSubmit: SubmitHandler<RegisterSchemaType> = async (values) => {
     try {
       const { data } = await axios.post('/api/auth/signup', { ...values });
+      reset();
       toast.success(data.message);
     } catch (err: any) {
       toast.error(err.response.data.message);
@@ -133,10 +135,6 @@ export default function Register() {
       <div>{errors?.accept && <p className="text-sm text-red-600 mt-1">{errors?.accept?.message}</p>}</div>
 
       <SlideButton type="submit" text="Sign up" slide_text="Secure sign up" icon={<FiLock />} disabled={isSubmitting} />
-
-      <button type="button" onClick={() => toast.success('this is a success')}>
-        Toast{' '}
-      </button>
     </form>
   );
 }
