@@ -16,15 +16,6 @@ interface Props {
 export default function Input({ name, label, type, icon, placeholder, register, error, disabled }: Props) {
   const [showPassword, setShowPassword] = useState(false);
 
-  const calculateTranslate = (): string => {
-    if (name === 'first_name' || name == 'last_name') return 'translateY(-22px)';
-    // if (name === 'email') return 'translate(-12px)';
-    // if (name === 'phone') return 'translate(-12px)';
-    // if (name === 'password') return 'translate(-12px)';
-
-    return '';
-  };
-
   return (
     <div className="mt-3 w-[100%]">
       <label htmlFor={name} className="text-gray-700">

@@ -2,7 +2,7 @@ import Input from '../inputs/Input';
 import { CiUser } from 'react-icons/ci';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { BsTelephone } from 'react-icons/bs';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { RegisterSchema, RegisterSchemaType } from '@/schemas/register';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
@@ -10,6 +10,7 @@ import zxcvbn from 'zxcvbn';
 import Link from 'next/link';
 import SlideButton from '../buttons/SlideButton';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 export default function Register() {
   const [passwordScore, setPasswordScore] = useState(0);
@@ -21,8 +22,13 @@ export default function Register() {
     formState: { errors, isSubmitting },
   } = useForm<RegisterSchemaType>({ resolver: zodResolver(RegisterSchema) });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<RegisterSchemaType> = async (values) => {
+    try {
+      const { data } = await axios.post('/api/auth/signup', { ...values });
+      toast.success(data.message);
+    } catch (err: any) {
+      toast.error(err.response.data.message);
+    }
   };
   ``;
   useEffect(() => {
