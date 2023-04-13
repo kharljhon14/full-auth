@@ -34,6 +34,8 @@ export default NextAuth({
 
         if (!user) throw new Error('Email is not registered');
 
+        if (!user.emailVerified) throw new Error('Please Verify you email');
+
         const isPasswordCorrect = await bcrypt.compare(credentials.password, user?.password);
 
         if (!isPasswordCorrect) throw new Error('Incorrect email or password');
