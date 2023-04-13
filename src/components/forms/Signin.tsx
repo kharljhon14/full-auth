@@ -1,15 +1,19 @@
 import Input from '../inputs/Input';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { RegisterSchemaType } from '@/schemas/register';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
 import SlideButton from '../buttons/SlideButton';
 import { SigninSchema, SigninSchemaType } from '@/schemas/signin';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
+import { signIn } from 'next-auth/react';
 
-export default function Signin() {
+interface Props {
+  callbackUrl: string;
+  csrfToken: string;
+}
+
+export default function Signin({ callbackUrl, csrfToken }: Props) {
   const router = useRouter();
   const path = router.pathname;
 
@@ -20,11 +24,15 @@ export default function Signin() {
   } = useForm<SigninSchemaType>({ resolver: zodResolver(SigninSchema) });
 
   const onSubmit: SubmitHandler<SigninSchemaType> = async (values) => {
-    try {
-      console.log('Success');
-    } catch (err: any) {
-      toast.error(err.response.data.message);
-    }
+    const res = await signIn('credentials', {
+      redirect: false,
+      email: values.email,
+      password: values.password,
+      callbackUrl,
+    });
+
+    if (res?.error) return toast.error(res.error);
+    else router.push('/');
   };
 
   return (
@@ -40,7 +48,8 @@ export default function Signin() {
         </button>
       </p>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="my-8 text-sm">
+      <form method="post" action="/api/auth/signin/email" onSubmit={handleSubmit(onSubmit)} className="my-8 text-sm">
+        <input type="hidden" name="csrfToken" defaultValue={csrfToken} />
         <Input
           name={'email'}
           label={'Email address'}

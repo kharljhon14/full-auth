@@ -30,10 +30,8 @@ export default async function sendMail(to: string, name: string, url: string, su
   await new Promise((resolve, reject) => {
     transtporter.verify((error, success) => {
       if (error) {
-        console.log(error);
         reject(error);
       } else {
-        console.log('Is listening');
         resolve(success);
       }
     });
@@ -49,7 +47,6 @@ export default async function sendMail(to: string, name: string, url: string, su
   await new Promise((resolve, reject) => {
     transtporter.sendMail(options, (err, info) => {
       if (err) {
-        console.error(err);
         reject(err);
       } else {
         resolve(info);
