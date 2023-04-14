@@ -7,6 +7,7 @@ import { SigninSchema, SigninSchemaType } from '@/schemas/signin';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 
 interface Props {
   callbackUrl: string;
@@ -71,7 +72,9 @@ export default function Signin({ callbackUrl, csrfToken }: Props) {
           error={errors?.password?.message}
           disabled={isSubmitting}
         />
-
+        <Link className="text-blue-600" href="/forgot">
+          Forgot password?
+        </Link>
         <SlideButton
           type="submit"
           text="Sign in "
