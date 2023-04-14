@@ -2,7 +2,7 @@ import Background from '@/components/backgrounds/Background';
 import ResetPassword from '@/components/forms/ResetPassword';
 import { NextPageContext } from 'next';
 
-export default function reset({ token }: { token: string }) {
+export default function Reset({ token }: { token: string }) {
   return (
     <div className="w-full items-center justify-center">
       <div className="w-full h-100 flex items-center justify-center">

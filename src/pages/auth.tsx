@@ -6,7 +6,7 @@ import Signin from '@/components/forms/Signin';
 import { NextPageContext } from 'next';
 import { getCsrfToken, getProviders } from 'next-auth/react';
 
-export default function auth({
+export default function Auth({
   tab,
   callbackUrl,
   csrfToken,

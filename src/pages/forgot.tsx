@@ -1,7 +1,7 @@
 import Background from '@/components/backgrounds/Background';
 import Reset from '@/components/forms/Reset';
 
-export default function forgot() {
+export default function Forgot() {
   return (
     <div className="w-full items-center justify-center">
       <div className="w-full h-100 flex items-center justify-center">
