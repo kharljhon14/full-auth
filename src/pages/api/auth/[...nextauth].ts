@@ -34,7 +34,7 @@ export default NextAuth({
 
         if (!user) throw new Error('Email is not registered');
 
-        if (!user.emailVerified === false) throw new Error('Please Verify you email');
+        if (user.emailVerified === false) throw new Error('Please Verify you email');
 
         if (user.emailVerified === null) throw new Error('Email is used in a provider');
 
@@ -50,14 +50,6 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_SECRET!,
       allowDangerousEmailAccountLinking: true,
     }),
-    // DiscordProvider({
-    //   clientId: process.env.DISCORD_CLIENT_ID!,
-    //   clientSecret: process.env.DISCORD_CLIENT_SECRET!,
-    // }),
-    // GitHubProvider({
-    //   clientId: process.env.GITHUB_ID!,
-    //   clientSecret: process.env.GITHUB_SECRET!,
-    // }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {

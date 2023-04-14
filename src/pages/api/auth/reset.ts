@@ -3,24 +3,25 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 import User from '@/models/user';
 import { UserToken } from '@/types/user-token';
+import bcrypt from 'bcryptjs';
 
-const { ACTIVATION_TOKEN_SECRET } = process.env;
+const { RESET_TOKEN_SECRET } = process.env;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     await connectDB();
 
-    const { token } = req.body;
-    const userToken = jwt.verify(token, ACTIVATION_TOKEN_SECRET!) as UserToken;
-
+    const { token, password } = req.body;
+    const userToken = jwt.verify(token, RESET_TOKEN_SECRET!) as UserToken;
     const userDB = await User.findById(userToken.id);
+
     if (!userDB) return res.status(400).json({ message: 'This account no longer exists' });
 
-    if (userDB.emailVerified === true) res.status(400).json({ message: 'Account already activated' });
+    const cryptedPassword = await bcrypt.hash(password, 12);
 
-    await User.findByIdAndUpdate(userDB.id, { emailVerified: true });
+    await User.findByIdAndUpdate(userDB.id, { password: cryptedPassword });
 
-    res.status(200).json({ message: 'Account successfully activated' });
+    res.status(200).json({ message: 'Your password has been updated' });
   } catch (err) {
     if (err instanceof Error) res.status(500).json({ message: err.message });
   }

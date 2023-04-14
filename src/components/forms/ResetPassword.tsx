@@ -11,7 +11,7 @@ import Link from 'next/link';
 import SlideButton from '../buttons/SlideButton';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { ResetPasswordSchema, ResetPasswordSchemaType } from '@/schemas/reset-password';
 
 interface Props {
@@ -20,7 +20,7 @@ interface Props {
 
 export default function ResetPassword({ token }: Props) {
   const [passwordScore, setPasswordScore] = useState(0);
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -34,6 +34,7 @@ export default function ResetPassword({ token }: Props) {
       const { data } = await axios.post('/api/auth/reset', { password: values.password, token });
       reset();
       toast.success(data.message);
+      router.push('/auth');
     } catch (err: any) {
       toast.error(err.response.data.message);
     }
